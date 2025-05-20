@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>250</width>
+    <height>194</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>250</width>
+    <height>194</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>250</width>
+    <height>194</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>PS</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="resources.qrc">
+    <normaloff>:/img/powerSupply.ico</normaloff>:/img/powerSupply.ico</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QMainWindow {
+    background-color: #111111;
+    color: #d0d0d0;
+    font-family: -apple-system, &quot;Helvetica Neue&quot;, sans-serif;
+    font-size: 14px;
+}
+
+QPushButton {
+    background-color: #555555;
+    color: #f0f0f0;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-weight: 600;
+    transition: background-color 0.15s ease;
+    font-size: 12px;
+}
+
+QPushButton:hover {
+    background-color: #777777;
+}
+
+QPushButton:pressed {
+    background-color: #333333;
+}
+
+
+QStatusBar {
+    background-color: #1a1a1a;
+    color: #bbbbbb;
+    border-top: 1px solid #444444;
+    font-size: 12px;
+}
+</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <property name="minimumSize">
+    <size>
+     <width>250</width>
+     <height>194</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>250</width>
+     <height>194</height>
+    </size>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <property name="leftMargin">
+     <number>5</number>
+    </property>
+    <property name="topMargin">
+     <number>5</number>
+    </property>
+    <property name="rightMargin">
+     <number>5</number>
+    </property>
+    <property name="bottomMargin">
+     <number>5</number>
+    </property>
+    <property name="spacing">
+     <number>0</number>
+    </property>
+    <item row="0" column="0">
+     <widget class="QFrame" name="frameIndicators">
+      <property name="minimumSize">
+       <size>
+        <width>240</width>
+        <height>184</height>
+       </size>
+      </property>
+      <property name="maximumSize">
+       <size>
+        <width>240</width>
+        <height>184</height>
+       </size>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background-color: #111111;
+border: 1px solid #555555;    /* Slightly lighter border for better contrast */
+border-radius: 20px;
+padding: 6px;</string>
+      </property>
+      <property name="frameShape">
+       <enum>QFrame::Shape::StyledPanel</enum>
+      </property>
+      <property name="frameShadow">
+       <enum>QFrame::Shadow::Raised</enum>
+      </property>
+      <layout class="QGridLayout" name="gridLayout_5">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <property name="horizontalSpacing">
+        <number>0</number>
+       </property>
+       <property name="verticalSpacing">
+        <number>5</number>
+       </property>
+       <item row="0" column="0" rowspan="2" colspan="3">
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
+         <item>
+          <widget class="QPushButton" name="buttonPower">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>40</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>60</width>
+             <height>80</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+    background-color: #111111;
+    color: #f0f0f0;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-weight: 600;
+    transition: background-color 0.15s ease;
+}
+
+QPushButton:hover {
+    background-color: #777777;
+}
+
+QPushButton:pressed {
+    background-color: #333333;
+}
+</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="port">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>90</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QLineEdit {
+    background-color: #ffffff;
+    color: #333333;
+    border: 1px solid #cccccc;
+    border-radius: 10px;
+    padding: 5px 8px;
+    font-size: 14px;
+    selection-background-color: #cce0ff;
+    selection-color: #000000;
+}
+
+QLineEdit:focus {
+    border: 1px solid #007aff;
+    background-color: #f9f9ff;
+}
+</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignmentFlag::AlignCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="pinButton">
+           <property name="minimumSize">
+            <size>
+             <width>35</width>
+             <height>25</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>20</width>
+             <height>35</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QPushButton {
+    background-color: #555555;
+    color: #f0f0f0;
+    border: none;
+    border-radius: 8px;
+    padding: 6px 14px;
+    font-weight: 600;
+    font-size: 12px;
+    transition: background-color 0.15s ease;
+}
+
+/* Hover effect for unchecked buttons */
+QPushButton:hover:!checked {
+    background-color: #666666;
+    color: #ffffff;
+}
+
+/* Hover effect for checked buttons */
+QPushButton:hover:checked {
+    background-color: #009999;
+    border-color: #00cccc;
+    color: #ffffff;
+}
+
+/* Pressed effect */
+QPushButton:pressed {
+    background-color: #222222;
+    color: #ffffff;
+    padding-top: 7px;
+    padding-bottom: 5px;
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.6);
+}
+
+/* Checked (toggled on) */
+QPushButton:checked {
+    background-color: #008080;
+    color: #ffffff;
+    font-weight: bold;
+    border: 2px solid #00aaaa;
+}
+
+/* Unchecked (not toggled) */
+QPushButton:!checked {
+    background-color: #555555;
+    color: #f0f0f0;
+}
+
+/* Optional: Selected state */
+QPushButton:selected {
+    background-color: white;
+}
+</string>
+           </property>
+           <property name="text">
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="resources.qrc">
+             <normaloff>:/img/pin.png</normaloff>:/img/pin.png</iconset>
+           </property>
+           <property name="checkable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="3" column="0" colspan="3">
+        <layout class="QGridLayout" name="gridLayout_3">
+         <property name="bottomMargin">
+          <number>0</number>
+         </property>
+         <property name="spacing">
+          <number>0</number>
+         </property>
+         <item row="1" column="1" colspan="2">
+          <widget class="QDoubleSpinBox" name="current">
+           <property name="styleSheet">
+            <string notr="true">QDoubleSpinBox {
+    border: none;
+    font-size: 40px;
+    background-color: #111111; /* Deeper black */
+    color: #33ccff;            /* Bright blue/cyan for LCD */
+    font-family: 'Digital-7', 'OCR A Extended', 'Courier New', monospace;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Pressed effects */
+QDoubleSpinBox::up-button:pressed {
+    margin-top: 5px;   /* Shift down visually */
+    margin-left: 5px;  /* Shift right visually */
+}
+QDoubleSpinBox::down-button:pressed {
+    margin-top: 5px;   /* Shift down visually */
+    margin-left: 5px;  /* Shift right visually */
+}
+</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+           </property>
+           <property name="readOnly">
+            <bool>true</bool>
+           </property>
+           <property name="buttonSymbols">
+            <enum>QAbstractSpinBox::ButtonSymbols::NoButtons</enum>
+           </property>
+           <property name="suffix">
+            <string>A</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="4">
+          <spacer name="horizontalSpacer">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Policy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="1" column="3">
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Orientation::Horizontal</enum>
+           </property>
+           <property name="sizeType">
+            <enum>QSizePolicy::Policy::Fixed</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>30</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="0" column="1" colspan="3">
+          <widget class="QDoubleSpinBox" name="voltage">
+           <property name="minimumSize">
+            <size>
+             <width>0</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="styleSheet">
+            <string notr="true">QDoubleSpinBox {
+    border: none;
+    font-size: 40px;
+    background-color: #111111; /* Deeper black */
+    color: #33ccff;            /* Bright blue/cyan for LCD */
+    font-family: 'Digital-7', 'OCR A Extended', 'Courier New', monospace;
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+    QDoubleSpinBox::up-button {
+        width: 35px;
+        height: 35px;
+    }
+    QDoubleSpinBox::down-button {
+        width: 35px;
+        height: 35px;
+    }
+/* Pressed effects */
+QDoubleSpinBox::up-button:pressed {
+    margin-top: 5px;   /* Shift down visually */
+    margin-left: 5px;  /* Shift right visually */
+}
+QDoubleSpinBox::down-button:pressed {
+    margin-top: 5px;   /* Shift down visually */
+    margin-left: 5px;  /* Shift right visually */
+}
+</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignmentFlag::AlignRight|Qt::AlignmentFlag::AlignTrailing|Qt::AlignmentFlag::AlignVCenter</set>
+           </property>
+           <property name="suffix">
+            <string>V</string>
+           </property>
+           <property name="maximum">
+            <double>50.000000000000000</double>
+           </property>
+           <property name="singleStep">
+            <double>0.500000000000000</double>
+           </property>
+           <property name="value">
+            <double>0.000000000000000</double>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources>
+  <include location="resources.qrc"/>
+ </resources>
+ <connections/>
+</ui>

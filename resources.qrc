@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>img/off.png</file>
+        <file>img/on.png</file>
+        <file>img/powerSupply.ico</file>
+        <file>img/pin.png</file>
+    </qresource>
+</RCC>
