@@ -2,9 +2,9 @@
 #include "drv_power_supply.h"
 
 /* Define a type alias for key:value pairs */
-PowerSupply::PowerSupply(std::string port) 
+PowerSupply::PowerSupply(std::string port)
 {
-    if (port.empty() || port.size() < 4) 
+    if (port.empty() || port.size() < 4)
     {
         std::cout << "Power Supply: Invalid port " << std::endl;
         return;
@@ -13,7 +13,7 @@ PowerSupply::PowerSupply(std::string port)
     /* Update new serial session attributes */
     this->baudrate = defaultBaudrate;
     this->port = port;
-    if(open(this->port) != PsError::ERR_SUCCESS) 
+    if(open(this->port) != PsError::ERR_SUCCESS)
         std::cout << "Power Supply: Failed to open port " << this->port << std::endl;
 }
 
@@ -32,7 +32,7 @@ PowerSupply::PsError PowerSupply::open(std::string port)
     memset(resourceName, '\0', sizeof(resourceName));
 
     /* Check for emtpy port */
-    if (port.empty() || port.size() < 4) 
+    if (port.empty() || port.size() < 4)
     {
         std::cout << "Power Supply: Invalid port " << std::endl;
         goto err_open;
@@ -40,7 +40,7 @@ PowerSupply::PsError PowerSupply::open(std::string port)
 
     /* Open resource manager */
     std::cout << "Power Supply: Opening " << resourceName << std::endl;
-    if (viOpenDefaultRM(&this->defaultRM) != VI_SUCCESS) 
+    if (viOpenDefaultRM(&this->defaultRM) != VI_SUCCESS)
     {
         std::cout << "Power Supply: Failed to open default resource manager" << std::endl;
         goto err_open;
@@ -49,7 +49,7 @@ PowerSupply::PsError PowerSupply::open(std::string port)
     /* Open resource */
     resourceNameStr = ("ASRL" + port.substr(3) + "::INSTR");
     strncpy(resourceName, resourceNameStr.c_str(), sizeof(resourceName));
-    if (viOpen(defaultRM, (ViRsrc)resourceName, VI_NULL, VI_NULL, &this->instrument) != VI_SUCCESS) 
+    if (viOpen(defaultRM, (ViRsrc)resourceName, VI_NULL, VI_NULL, &this->instrument) != VI_SUCCESS)
     {
         std::cout << "Power Supply: Failed to open instrument" << std::endl;
         goto err_open;
@@ -63,7 +63,7 @@ PowerSupply::PsError PowerSupply::open(std::string port)
          - No flow control
          - Termination character: LF (0x0A)
          - Termination character enabled
-         - Timeout: 2000 ms 
+         - Timeout: 2000 ms
     */
     viSetAttribute(instrument, VI_ATTR_ASRL_BAUD, this->baudrate);          /* 9600 baud rate */
     viSetAttribute(instrument, VI_ATTR_ASRL_DATA_BITS, 8);                  /* 8 data bits */
@@ -102,7 +102,7 @@ PowerSupply:: PsError PowerSupply::isOn(bool& state)
     memset(buffer, '\0', sizeof(buffer));
 
     /* Check if the instrument is open */
-    if (this->isOpen() != PsError::ERR_SUCCESS) 
+    if (this->isOpen() != PsError::ERR_SUCCESS)
     {
         std::cout << "Power Supply: Device not connected" << std::endl;
         err = PsError::ERR_DEVICE_NOT_CONNECTED;
@@ -178,19 +178,19 @@ err_send_command:
     return err;
 }
 
-PowerSupply::PsError PowerSupply::setVoltage(double voltage)
+PowerSupply::PsError PowerSupply::writeVoltage(double voltage)
 {
     PsError err = PsError::ERR_SUCCESS;
 
     /* Check if the instrument is open */
-    if (this->isOpen() != PsError::ERR_SUCCESS) 
+    if (this->isOpen() != PsError::ERR_SUCCESS)
     {
         std::cout << "Power Supply: Device not connected" << std::endl;
         return PsError::ERR_DEVICE_NOT_CONNECTED;
     }
 
     /* Send set voltage command */
-    err = sendCommand(psCommands["setVoltage"], std::to_string(voltage));
+    err = sendCommand(psCommands["writeVoltage"], std::to_string(voltage));
     if (err != PsError::ERR_SUCCESS)
     {
         std::cout << "Failed to set voltage " << static_cast<int>(voltage) << "V. Error: " << static_cast<int>(err) << std::endl;
@@ -201,11 +201,11 @@ PowerSupply::PsError PowerSupply::setVoltage(double voltage)
         std::cout << "Power Supply: Set voltage to " << static_cast<int>(voltage) << "V" << std::endl;
     }
 
-ps_err_setVoltage:
+ps_err_writeVoltage:
     return err;
 }
 
-PowerSupply::PsError PowerSupply::getVoltage(double& voltage)
+PowerSupply::PsError PowerSupply::readVoltage(double& voltage)
 {
     char buffer[25];
     PsError err = PsError::ERR_SUCCESS;
@@ -216,19 +216,19 @@ PowerSupply::PsError PowerSupply::getVoltage(double& voltage)
 
     voltage = 0;
     /* Check if the instrument is open */
-    if (this->isOpen() != PsError::ERR_SUCCESS) 
+    if (this->isOpen() != PsError::ERR_SUCCESS)
     {
         std::cout << "Power Supply: Device not connected" << std::endl;
         return PsError::ERR_DEVICE_NOT_CONNECTED;
     }
 
     /* Send get voltage command */
-    err = sendCommand(psCommands["getVoltage"], "");
+    err = sendCommand(psCommands["readVoltage"], "");
     if (err != PsError::ERR_SUCCESS)
     {
         std::cout << "Failed to get voltage. Error: " << static_cast<int>(err) << std::endl;
         err = PsError::ERR_OPERATION_FAILED;
-        goto ps_err_getVoltage;
+        goto ps_err_readVoltage;
     }
 
     /* Read response from power supply */
@@ -237,18 +237,18 @@ PowerSupply::PsError PowerSupply::getVoltage(double& voltage)
     {
         std::cout << "Failed to read voltage. Status: " << status << std::endl;
         err = PsError::ERR_OPERATION_FAILED;
-        goto ps_err_getVoltage;
+        goto ps_err_readVoltage;
     }
 
     /* Convert response to double */
     voltage = atof(buffer);
     std::cout << "Power Supply: Voltage is " << voltage << "V" << std::endl;
 
-ps_err_getVoltage:
+ps_err_readVoltage:
     return err;
 }
 
-PowerSupply::PsError PowerSupply::getCurrent(double& current)
+PowerSupply::PsError PowerSupply::readCurrent(double& current)
 {
     char buffer[25];
     ViUInt32 bufferCount = 0;
@@ -258,19 +258,19 @@ PowerSupply::PsError PowerSupply::getCurrent(double& current)
     memset(buffer, '\0', sizeof(buffer));
 
     /* Check if the instrument is open */
-    if (this->isOpen() != PsError::ERR_SUCCESS) 
+    if (this->isOpen() != PsError::ERR_SUCCESS)
     {
         std::cout << "Power Supply: Device not connected" << std::endl;
         return PsError::ERR_DEVICE_NOT_CONNECTED;
     }
 
     /* Send get current command */
-    err = sendCommand(psCommands["getCurrent"], "");
+    err = sendCommand(psCommands["readCurrent"], "");
     if (err != PsError::ERR_SUCCESS)
     {
         std::cout << "Failed to get current. Error: " << static_cast<int>(err) << std::endl;
         err = PsError::ERR_OPERATION_FAILED;
-        goto ps_err_getCurrent;
+        goto ps_err_readCurrent;
     }
 
     /* Read response from power supply */
@@ -279,14 +279,14 @@ PowerSupply::PsError PowerSupply::getCurrent(double& current)
     {
         std::cout << "Failed to read current. Status: " << status << std::endl;
         err = PsError::ERR_OPERATION_FAILED;
-        goto ps_err_getCurrent;
+        goto ps_err_readCurrent;
     }
 
     /* Convert response to double */
     current = atof(buffer);
     std::cout << "Power Supply: Current is " << current << "A" << std::endl;
 
-ps_err_getCurrent:
+ps_err_readCurrent:
     current = 0.0;
     return err;
 }
@@ -296,7 +296,7 @@ PowerSupply::PsError PowerSupply::turnOn(void)
     PsError err = PsError::ERR_SUCCESS;
 
     /* Check if the instrument is open */
-    if (this->isOpen() != PsError::ERR_SUCCESS) 
+    if (this->isOpen() != PsError::ERR_SUCCESS)
     {
         std::cout << "Power Supply: Device not connected" << std::endl;
         goto err_turnOn;
@@ -323,7 +323,7 @@ PowerSupply::PsError PowerSupply::turnOff(void)
     PsError err = PsError::ERR_SUCCESS;
 
     /* Check if the instrument is open */
-    if (this->isOpen() != PsError::ERR_SUCCESS) 
+    if (this->isOpen() != PsError::ERR_SUCCESS)
     {
         std::cout << "Power Supply: Device not connected" << std::endl;
         goto err_turnOff;
@@ -347,7 +347,7 @@ err_turnOff:
 
 void PowerSupply::close(void)
 {
-    if (instrument != VI_NULL) 
+    if (instrument != VI_NULL)
     {
         viClose(instrument);
         instrument = VI_NULL;

@@ -80,7 +80,7 @@ public slots:
                 goto wait_till_nex_sample;
             }
 
-            err = powerSupply->getCurrent(newCurrent);
+            err = powerSupply->readCurrent(newCurrent);
             if (err != PowerSupply::PsError::ERR_SUCCESS)
             {
                 qDebug() << "Failed to get current";
@@ -167,7 +167,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     /* User settings: default voltage */
     lastSavedVoltage = settings->value("lastSavedVoltage", "0.0").toDouble();
-    if (powerSupply->setVoltage(lastSavedVoltage) == PowerSupply::PsError::ERR_SUCCESS)
+    if (powerSupply->writeVoltage(lastSavedVoltage) == PowerSupply::PsError::ERR_SUCCESS)
     {
         ui->voltage->blockSignals(true);
         ui->voltage->setValue(lastSavedVoltage);
@@ -237,7 +237,7 @@ void MainWindow::on_current_valueChanged(double current)
  */
 void MainWindow::on_voltage_valueChanged(double voltage)
 {
-   if (powerSupply->setVoltage(voltage) != PowerSupply::PsError:: ERR_SUCCESS)
+   if (powerSupply->writeVoltage(voltage) != PowerSupply::PsError:: ERR_SUCCESS)
    {
        ui->voltage->setValue(0.0);
        return;
@@ -309,7 +309,7 @@ void MainWindow::on_buttonPower_clicked()
 
         /* Power supply is on, voltage updated to user default values */
         load_power_icon(ui->buttonPower, true);
-        if (powerSupply->setVoltage(lastSavedVoltage) == PowerSupply::PsError::ERR_SUCCESS)
+        if (powerSupply->writeVoltage(lastSavedVoltage) == PowerSupply::PsError::ERR_SUCCESS)
         {
             ui->current->setValue(0.0);
             ui->voltage->blockSignals(true);
@@ -427,7 +427,7 @@ void MainWindow::on_port_editingFinished()
     if (powerState == true)
     {
         load_power_icon(ui->buttonPower, true);
-        err = powerSupply->getVoltage(voltage);
+        err = powerSupply->readVoltage(voltage);
         if (err != PowerSupply::PsError::ERR_SUCCESS)
         {
             errorMessage = "Failed to get voltage";

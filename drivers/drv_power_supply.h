@@ -21,14 +21,14 @@ class PowerSupply
         ~PowerSupply();
 
         PsError open(std::string port);
-        PsError setVoltage(double voltage);
-        PsError setMaxCurrent(double current);
+        PsError writeVoltage(double voltage);
+        PsError writeMaxCurrent(double current);
         PsError isOpen(void);
         PsError isOn(bool& state);
         PsError turnOn(void);
         PsError turnOff(void);
-        PsError getVoltage(double& voltage);
-        PsError getCurrent(double& current);
+        PsError readVoltage(double& voltage);
+        PsError readCurrent(double& current);
         void close(void);
         std::string port;
         int baudrate;
@@ -39,11 +39,11 @@ class PowerSupply
         ViSession instrument;
         std::map<std::string, std::string> psCommands =
         {
-            {"setVoltage",      "VOLT"},
+            {"writeVoltage",      "VOLT"},
             {"setCurrent",      "CURR"},
-            {"setMaxCurrent",   "IMAX"},
-            {"getVoltage",      "MEAS:VOLT?"},
-            {"getCurrent",      "MEAS:CURR?"},
+            {"writeMaxCurrent",   "IMAX"},
+            {"readVoltage",      "MEAS:VOLT?"},
+            {"readCurrent",      "MEAS:CURR?"},
             {"getMaxCurrent",   "IMAX?"},
             {"isOn",            "OUTP?"},
             {"turnOn",          "OUTP ON"},
